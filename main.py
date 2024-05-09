@@ -1,10 +1,15 @@
 from random import randint
 
 
+# Esta función devuelve un número aleatorio entre 1 y 6, simulando la tirada
+# de un solo dado.
 def roll_die():
     return randint(1, 6)
 
 
+# Esta función simula una tirada de dados de Juan, si al menos uno de los
+# dados es un 4, Juan vuelve a tirar el dado que no es un 4, en caso contrario,
+# vuelve a tirar ambos dados (una única vez).
 def juan_rolls():
     first_die, second_die = roll_die(), roll_die()
     match (first_die, second_die):
@@ -17,6 +22,8 @@ def juan_rolls():
     return first_die, second_die
 
 
+# Esta función se encarga de calcular y retornar el puntaje obtenido luego de
+# que los dados son tirados.
 def calculate_score(first_die, second_die):
     match first_die, second_die:
         case (4, 1):
@@ -45,6 +52,10 @@ def calculate_score(first_die, second_die):
             return 0
 
 
+# Esta función simula una tirada de dados de Maria siguiendo su estrategia.
+# Si alguno de los dados es menor o igual a la puntuación de Juan,
+# María puede volver a tirar ese dado. De lo contrario, vuelve a tirar ambos
+# dados.
 def maria_rolls(score):
     first_die, second_die = roll_die(), roll_die()
     match (first_die, second_die, score):
@@ -57,6 +68,9 @@ def maria_rolls(score):
     return first_die, second_die
 
 
+# Esta función toma el puntaje de Juan y Maria respectivamente, y devuelve:
+# Un 0 si Juan es el ganador, un 1 si Maria es la ganadora o un 2 si hay un
+# empate.
 def determinate_winner(juan_score, maria_score):
     if juan_score > maria_score:
         return 0
@@ -66,6 +80,10 @@ def determinate_winner(juan_score, maria_score):
         return 2
 
 
+# Esta función simula el juego una cantidad especificada de veces por el
+# parámetro "times", y calcula la frecuencia relativa de cada evento
+# requerido por la letra de la tarea, y por último devuelve una tupla
+# conteniendo los tres valores.
 def calculate_relative_frequencies(times):
     juan_wins = 0
     maria_wins = 0
@@ -90,25 +108,48 @@ def calculate_relative_frequencies(times):
     juan_wins_relative_frequency = juan_wins/total
     maria_wins_relative_frequency = maria_wins/total
     draws_relative_frequency = draws/total
-    return juan_wins_relative_frequency, maria_wins_relative_frequency, draws_relative_frequency
+
+    return (juan_wins_relative_frequency,
+            maria_wins_relative_frequency,
+            draws_relative_frequency)
 
 
+# La función main simplemente llama a "calculate_relative_frequencies" en tres
+# ocasiones, en donde cada llamada toma por parámetro el número de veces que
+# se quiera realizar la simulación, 1000, 10000 y 100000 veces, almacena los
+# resultados en 3 variables respectivamente y luego los imprime.
 def main():
-    relative_frequencies_thousand = calculate_relative_frequencies(int(1000))
-    relative_frequencies_ten_thousand = calculate_relative_frequencies(int(10000))
-    relative_frequencies_hundred_thousand = calculate_relative_frequencies(int(100000))
+    relative_frequencies_thousand = (
+        calculate_relative_frequencies(int(1000)))
+    relative_frequencies_ten_thousand = (
+        calculate_relative_frequencies(int(10000)))
+    relative_frequencies_hundred_thousand = (
+        calculate_relative_frequencies(int(100000)))
 
-    print(f"Frequencia relativa para victorias de Juan (1000 juegos): {relative_frequencies_thousand[0]}")
-    print(f"Frequencia relativa para victorias de Maria (1000 juegos): {relative_frequencies_thousand[1]}")
-    print(f"Frequencia relativa para empates (1000 juegos): {relative_frequencies_thousand[2]}")
+    print(f"Frecuencia relativa para victorias de Juan (1000 juegos): "
+          f"{relative_frequencies_thousand[0]}")
+    print(f"Frecuencia relativa para victorias de Maria (1000 juegos): "
+          f"{relative_frequencies_thousand[1]}")
+    print(f"Frecuencia relativa para empates (1000 juegos): "
+          f"{relative_frequencies_thousand[2]}")
+
     print("\n")
-    print(f"Frequencia relativa para victorias de Juan (10000 juegos): {relative_frequencies_ten_thousand[0]}")
-    print(f"Frequencia relativa para victorias de Maria (10000 juegos): {relative_frequencies_ten_thousand[1]}")
-    print(f"Frequencia relativa para empates (10000 juegos): {relative_frequencies_ten_thousand[2]}")
+
+    print(f"Frecuencia relativa para victorias de Juan (10000 juegos): "
+          f"{relative_frequencies_ten_thousand[0]}")
+    print(f"Frecuencia relativa para victorias de Maria (10000 juegos): "
+          f"{relative_frequencies_ten_thousand[1]}")
+    print(f"Frecuencia relativa para empates (10000 juegos): "
+          f"{relative_frequencies_ten_thousand[2]}")
+
     print("\n")
-    print(f"Frequencia relativa para victorias de Juan (100000 juegos): {relative_frequencies_hundred_thousand[0]}")
-    print(f"Frequencia relativa para victorias de Maria (100000 juegos): {relative_frequencies_hundred_thousand[1]}")
-    print(f"Frequencia relativa para empates (100000 juegos): {relative_frequencies_hundred_thousand[2]}")
+
+    print(f"Frecuencia relativa para victorias de Juan (100000 juegos): "
+          f"{relative_frequencies_hundred_thousand[0]}")
+    print(f"Frecuencia relativa para victorias de Maria (100000 juegos): "
+          f"{relative_frequencies_hundred_thousand[1]}")
+    print(f"Frecuencia relativa para empates (100000 juegos): "
+          f"{relative_frequencies_hundred_thousand[2]}")
 
 
 if __name__ == '__main__':
