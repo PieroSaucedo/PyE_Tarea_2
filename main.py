@@ -121,8 +121,10 @@ def calculate_relative_frequencies(times):
 def main():
     relative_frequencies_thousand = (
         calculate_relative_frequencies(int(1000)))
+
     relative_frequencies_ten_thousand = (
         calculate_relative_frequencies(int(10000)))
+
     relative_frequencies_hundred_thousand = (
         calculate_relative_frequencies(int(100000)))
 
