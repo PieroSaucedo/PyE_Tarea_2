@@ -22,6 +22,22 @@ def juan_rolls():
     return first_die, second_die
 
 
+# Esta función simula una tirada de dados de María siguiendo su estrategia.
+# Si alguno de los dados es menor o igual a la puntuación de Juan,
+# María puede volver a tirar ese dado. De lo contrario, vuelve a tirar ambos
+# dados.
+def maria_rolls(score):
+    first_die, second_die = roll_die(), roll_die()
+    match (first_die, second_die, score):
+        case (4, second_die, score) if second_die <= score:
+            second_die = roll_die()
+        case (first_die, 4, score) if first_die <= score:
+            first_die = roll_die()
+        case _:
+            first_die, second_die = roll_die(), roll_die()
+    return first_die, second_die
+
+
 # Esta función se encarga de calcular y retornar el puntaje obtenido luego de
 # que los dados son tirados.
 def calculate_score(first_die, second_die):
@@ -52,24 +68,8 @@ def calculate_score(first_die, second_die):
             return 0
 
 
-# Esta función simula una tirada de dados de Maria siguiendo su estrategia.
-# Si alguno de los dados es menor o igual a la puntuación de Juan,
-# María puede volver a tirar ese dado. De lo contrario, vuelve a tirar ambos
-# dados.
-def maria_rolls(score):
-    first_die, second_die = roll_die(), roll_die()
-    match (first_die, second_die, score):
-        case (4, second_die, score) if second_die <= score:
-            second_die = roll_die()
-        case (first_die, 4, score) if first_die <= score:
-            first_die = roll_die()
-        case _:
-            first_die, second_die = roll_die(), roll_die()
-    return first_die, second_die
-
-
-# Esta función toma el puntaje de Juan y Maria respectivamente, y devuelve:
-# Un 0 si Juan es el ganador, un 1 si Maria es la ganadora o un 2 si hay un
+# Esta función toma el puntaje de Juan y María respectivamente, y devuelve:
+# Un 0 si Juan es el ganador, un 1 si María es la ganadora o un 2 si hay un
 # empate.
 def determinate_winner(juan_score, maria_score):
     if juan_score > maria_score:
@@ -128,7 +128,7 @@ def main():
 
     print(f"Frecuencia relativa para victorias de Juan (1000 juegos): "
           f"{relative_frequencies_thousand[0]}")
-    print(f"Frecuencia relativa para victorias de Maria (1000 juegos): "
+    print(f"Frecuencia relativa para victorias de María (1000 juegos): "
           f"{relative_frequencies_thousand[1]}")
     print(f"Frecuencia relativa para empates (1000 juegos): "
           f"{relative_frequencies_thousand[2]}")
@@ -137,7 +137,7 @@ def main():
 
     print(f"Frecuencia relativa para victorias de Juan (10000 juegos): "
           f"{relative_frequencies_ten_thousand[0]}")
-    print(f"Frecuencia relativa para victorias de Maria (10000 juegos): "
+    print(f"Frecuencia relativa para victorias de María (10000 juegos): "
           f"{relative_frequencies_ten_thousand[1]}")
     print(f"Frecuencia relativa para empates (10000 juegos): "
           f"{relative_frequencies_ten_thousand[2]}")
@@ -146,7 +146,7 @@ def main():
 
     print(f"Frecuencia relativa para victorias de Juan (100000 juegos): "
           f"{relative_frequencies_hundred_thousand[0]}")
-    print(f"Frecuencia relativa para victorias de Maria (100000 juegos): "
+    print(f"Frecuencia relativa para victorias de MaríDa (100000 juegos): "
           f"{relative_frequencies_hundred_thousand[1]}")
     print(f"Frecuencia relativa para empates (100000 juegos): "
           f"{relative_frequencies_hundred_thousand[2]}")
