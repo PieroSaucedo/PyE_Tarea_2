@@ -12,29 +12,48 @@ def roll_die():
 # vuelve a tirar ambos dados (una única vez).
 def juan_rolls():
     first_die, second_die = roll_die(), roll_die()
+    juan_score = calculate_score(first_die, second_die)
     match (first_die, second_die):
         case (4, 1 | 2 | 3):
             second_die = roll_die()
         case (1 | 2 | 3, 4):
             first_die = roll_die()
-        case _:
+        case _ if juan_score == 0:
             first_die, second_die = roll_die(), roll_die()
+    
     return first_die, second_die
 
 
 # Esta función simula una tirada de dados de María siguiendo su estrategia.
-# Si alguno de los dados es menor o igual a la puntuación de Juan,
-# María puede volver a tirar ese dado. De lo contrario, vuelve a tirar ambos
-# dados.
+# María calcula su puntuación y la compara con la de Juan, y sigue una de las
+# siguientes alternativas:
+#   1. Si obtiene mayor puntaje que Juan, no vuelve a tirar, ya ganó.
+#   2. Si obtiene igual puntaje, vuelve a tirar ambos dados si obtuvo 0, y en
+#      caso contrario, si obtuvo 1, 2 o 3 vuelve a tirar el dado distinto a 4.
+#   3. Si obtiene menor puntaje, tira hasta obtener mayor puntaje.
 def maria_rolls(score):
     first_die, second_die = roll_die(), roll_die()
-    match (first_die, second_die, score):
-        case (4, second_die, score) if second_die <= score:
-            second_die = roll_die()
-        case (first_die, 4, score) if first_die <= score:
-            first_die = roll_die()
-        case _:
-            first_die, second_die = roll_die(), roll_die()
+    maria_score = calculate_score(first_die, second_die)
+    # Maria obtiene menor puntaje que Juan.
+    if maria_score < score:
+        match (first_die, second_die):
+            case (4, second_die):
+                second_die = roll_die()
+            case (first_die, 4):
+                first_die = roll_die()
+            case _:
+                first_die, second_die = roll_die(), roll_die()
+    
+    # Maria obtiene igual puntaje que Juan.
+    elif maria_score == score:
+        match (first_die, second_die, score):
+            case (first_die, second_die, 0):
+                first_die, second_die = roll_die(), roll_die()
+            case (4, 1 | 2 | 3):
+                second_die = roll_die()
+            case (1 | 2 | 3, 4):
+                first_die = roll_die()
+
     return first_die, second_die
 
 
@@ -89,7 +108,7 @@ def calculate_relative_frequencies(times):
     maria_wins = 0
     draws = 0
 
-    for i in range(times):
+    for _ in range(times):
         juan_first_die, juan_second_die = juan_rolls()
         juan_score = calculate_score(juan_first_die, juan_second_die)
 
@@ -148,7 +167,7 @@ def main():
 
     print(f"Frecuencia relativa para victorias de Juan (100000 juegos): "
           f"{relative_frequencies_hundred_thousand[0]}")
-    print(f"Frecuencia relativa para victorias de MaríDa (100000 juegos): "
+    print(f"Frecuencia relativa para victorias de María (100000 juegos): "
           f"{relative_frequencies_hundred_thousand[1]}")
     print(f"Frecuencia relativa para empates (100000 juegos): "
           f"{relative_frequencies_hundred_thousand[2]}")
